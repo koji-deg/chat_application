@@ -88,7 +88,7 @@ export default function Home() {
     // オーディオ要素の設定とループ再生の有効化
     if (audioRef.current) {
       audioRef.current.loop = true; // ループ再生を有効にする
-      audioRef.current.volume = 0.5; // 初期音量を50%に設定
+      audioRef.current.volume = 0.3; // 初期音量を30%に設定
       audioRef.current.play().catch((error) => {
         console.error("オーディオの再生に失敗しました:", error);
       });
