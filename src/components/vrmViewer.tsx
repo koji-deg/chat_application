@@ -35,6 +35,9 @@ export default function VrmViewer() {
             const url = window.URL.createObjectURL(blob);
             viewer.loadVrm(url);
           }
+
+
+
         });
       }
     },

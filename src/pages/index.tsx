@@ -82,6 +82,29 @@ export default function Home() {
     setChatProcessingCount(prevCount => prevCount - 1);
   }
 
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // オーディオ要素の設定とループ再生の有効化
+    if (audioRef.current) {
+      audioRef.current.loop = true; // ループ再生を有効にする
+      audioRef.current.volume = 0.5; // 初期音量を50%に設定
+      audioRef.current.play().catch((error) => {
+        console.error("オーディオの再生に失敗しました:", error);
+      });
+    }
+
+    return () => {
+      // コンポーネントのアンマウント時にクリーンアップ
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+ 
+
+
   useEffect(() => {
     const storedData = window.localStorage.getItem("chatVRMParams");
     if (storedData) {
@@ -676,9 +699,11 @@ export default function Home() {
   }, [youtubeNoCommentCount, conversationContinuityMode]);
 
   return (
-    <>
-      <div className={"font-M_PLUS_2"} style={{ backgroundImage: `url(${buildUrl(backgroundImageUrl)})`, backgroundSize: 'cover', minHeight: '100vh' }}>
-        <Meta />
+    <>    
+
+    <div className={"font-M_PLUS_2"} style={{ backgroundImage: `url(${buildUrl(backgroundImageUrl)})`, backgroundSize: 'cover', minHeight: '100vh' }}>
+
+      <Meta />
         {!dontShowIntroduction && (
           <Introduction
             dontShowIntroduction={dontShowIntroduction}
@@ -689,11 +714,19 @@ export default function Home() {
           />
         )}
         <VrmViewer />
+        
+        {/* BGMの再生用オーディオタグ */}
+        <div align="right">
+        <audio ref={audioRef} src={buildUrl("/bgm.mp3")} controls autoplay loop volume="0.3"  type="audio/mp3"></audio>
+        </div>
+
         <MessageInputContainer
           isChatProcessing={chatProcessing}
           onChatProcessStart={handleSendChat}
           selectVoiceLanguage={selectVoiceLanguage}
         />
+
+
         <Menu
           selectAIService={selectAIService}
           onChangeAIService={setSelectAIService}
@@ -774,7 +807,10 @@ export default function Home() {
           characterName={characterName}
           onChangeCharacterName={setCharacterName}
         />
+
+
       </div>
+
     </>
   );
 }

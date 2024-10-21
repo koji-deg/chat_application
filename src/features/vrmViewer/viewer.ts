@@ -27,11 +27,13 @@ export class Viewer {
     this._scene = scene;
 
     // light
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-    directionalLight.position.set(1.0, 1.0, 1.0).normalize();
-    scene.add(directionalLight);
+    const directionalLight = new THREE.DirectionalLight(0XFF8C00, 0.5); // ライトの色と強度
+  directionalLight.position.set(-1.0, 1.5, 1.0); // 左上前方の位置
+  directionalLight.target.position.set(0, 0, 0); // シーンの中央を向くようにターゲット設定
+  scene.add(directionalLight);
+  scene.add(directionalLight.target);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    const ambientLight = new THREE.AmbientLight(0XFAFAFF, 0.6);
     scene.add(ambientLight);
 
     // animate
@@ -55,6 +57,13 @@ export class Viewer {
       });
 
       this._scene.add(this.model.vrm.scene);
+
+      // モデルの角度を回転
+  this.model.vrm.scene.rotation.y = THREE.MathUtils.degToRad(-15); // 15度左に回転
+
+   // モデルを手前側に傾ける (X軸方向の回転)
+  this.model.vrm.scene.rotation.x = THREE.MathUtils.degToRad(5); // 5度手前に傾ける
+
 
       const vrma = await loadVRMAnimation(buildUrl("/idle_loop.vrma"));
       if (vrma) this.model.loadAnimation(vrma);
@@ -144,7 +153,7 @@ export class Viewer {
         headWPos.y,
         this._camera.position.z
       );
-      this._cameraControls?.target.set(headWPos.x, headWPos.y, headWPos.z);
+      this._cameraControls?.target.set(headWPos.x, headWPos.y + 0.02, headWPos.z);
       this._cameraControls?.update();
     }
   }
