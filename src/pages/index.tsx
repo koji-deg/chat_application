@@ -716,7 +716,7 @@ export default function Home() {
         <VrmViewer />
         
         {/* BGMの再生用オーディオタグ */}
-        <div align="right">
+        <div style={{ textAlign: 'right' }}>
         <audio ref={audioRef} src={buildUrl("/bgm.mp3")} controls autoplay loop volume="0.3"  type="audio/mp3"></audio>
         </div>
 
