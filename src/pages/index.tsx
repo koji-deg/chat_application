@@ -717,7 +717,7 @@ export default function Home() {
         
         {/* BGMの再生用オーディオタグ */}
         <div style={{ textAlign: 'right' }}>
-       <audio ref={audioRef} src={buildUrl("/bgm.mp3")} controls autoPlay loop type="audio/mp3"></audio>
+       <audio ref={audioRef} src={buildUrl("/bgm.mp3")} controls autoPlay loop></audio>
         </div>
 
         <MessageInputContainer
