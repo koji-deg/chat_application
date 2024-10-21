@@ -41,3 +41,6 @@ credentials.json
 .tool-versions
 
 certificates
+
+# env files
+.env
