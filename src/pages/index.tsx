@@ -45,7 +45,7 @@ export default function Home() {
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
   const [selectAIService, setSelectAIService] = useState("openai");
   const [selectAIModel, setSelectAIModel] = useState("gpt-4o-mini");
-  const [openAiKey, setOpenAiKey] = useState(ssrOpenAiKey);
+  const [openAiKey, setOpenAiKey] = useState(ssrOpenAiKey || "NG");
   const [anthropicKey, setAnthropicKey] = useState("");
   const [googleKey, setGoogleKey] = useState("");
   const [groqKey, setGroqKey] = useState("");
