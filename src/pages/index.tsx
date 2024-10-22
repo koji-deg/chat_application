@@ -19,17 +19,33 @@ import { useTranslation } from 'react-i18next';
 import { fetchAndProcessComments } from "@/features/youtube/youtubeComments";
 import { buildUrl } from "@/utils/buildUrl";
 
+// サーバーサイドでAPIキーを取得する関数（SSR）
+export async function getServerSideProps(context: any) {
+  const ssrOpenAiKey = process.env.OPEN_AI_KEY;
+
+  if (!ssrOpenAiKey) {
+    return {
+      props: {
+        error: "APIキーが見つかりません",
+      },
+    };
+  }
+
+  // SSRからクライアント側に渡すpropsを返す
+  return {
+    props: {
+      ssrOpenAiKey,
+    },
+  };
+}
+
 export default function Home() {
   const { viewer } = useContext(ViewerContext);
 
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
   const [selectAIService, setSelectAIService] = useState("openai");
   const [selectAIModel, setSelectAIModel] = useState("gpt-4o-mini");
-  const [openAiKey, setOpenAiKey] = useState(
-  process.env.OPEN_AI_KEY && process.env.OPEN_AI_KEY !== "" 
-    ? process.env.OPEN_AI_KEY 
-    : ""
-);
+  const [openAiKey, setOpenAiKey] = useState(ssrOpenAiKey);
   const [anthropicKey, setAnthropicKey] = useState("");
   const [googleKey, setGoogleKey] = useState("");
   const [groqKey, setGroqKey] = useState("");
