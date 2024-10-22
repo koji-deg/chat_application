@@ -5,34 +5,13 @@ import { ChatCompletionMessageParam } from "openai/resources";
 // 環境変数からAPIキーを取得
 const openAiKey = process.env.OPEN_AI_KEY;
 
-export async function getOpenAIChatResponse(messages: Message[], model: string) {
-  if (!openAiKey) {
+export async function getOpenAIChatResponseStream(messages: Message[], apiKey: string, model: string) {
+  if (!apiKey) {
     throw new Error("Invalid API Key");
   }
 
   const openai = new OpenAI({
-    apiKey: openAiKey,
-    dangerouslyAllowBrowser: true,
-  });
-
-  const data = await openai.chat.completions.create({
-    model: model,
-    messages: messages as ChatCompletionMessageParam[],
-  });
-
-  const [aiRes] = data.choices;
-  const message = aiRes.message?.content || "回答生成時にエラーが発生しました。";
-
-  return { message: message };
-}
-
-export async function getOpenAIChatResponseStream(messages: Message[], model: string) {
-  if (!openAiKey) {
-    throw new Error("Invalid API Key");
-  }
-
-  const openai = new OpenAI({
-    apiKey: openAiKey,
+    apiKey: apiKey,
     dangerouslyAllowBrowser: true,
   });
 
