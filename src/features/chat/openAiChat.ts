@@ -2,13 +2,16 @@ import { OpenAI } from "openai";
 import { Message } from "../messages/messages";
 import { ChatCompletionMessageParam } from "openai/resources";
 
-export async function getOpenAIChatResponse(messages: Message[], apiKey: string, model: string) {
-  if (!apiKey) {
+// 環境変数からAPIキーを取得
+const openAiKey = process.env.OPEN_AI_KEY;
+
+export async function getOpenAIChatResponse(messages: Message[], model: string) {
+  if (!openAiKey) {
     throw new Error("Invalid API Key");
   }
 
   const openai = new OpenAI({
-    apiKey: apiKey,
+    apiKey: openAiKey,
     dangerouslyAllowBrowser: true,
   });
 
@@ -23,17 +26,13 @@ export async function getOpenAIChatResponse(messages: Message[], apiKey: string,
   return { message: message };
 }
 
-export async function getOpenAIChatResponseStream(
-  messages: Message[],
-  apiKey: string,
-  model: string
-) {
-  if (!apiKey) {
+export async function getOpenAIChatResponseStream(messages: Message[], model: string) {
+  if (!openAiKey) {
     throw new Error("Invalid API Key");
   }
 
   const openai = new OpenAI({
-    apiKey: apiKey,
+    apiKey: openAiKey,
     dangerouslyAllowBrowser: true,
   });
 
