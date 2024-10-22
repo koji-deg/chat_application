@@ -19,6 +19,79 @@ import { useTranslation } from 'react-i18next';
 import { fetchAndProcessComments } from "@/features/youtube/youtubeComments";
 import { buildUrl } from "@/utils/buildUrl";
 
+interface Props {
+  initialData: any;
+  error: string | null;
+}
+
+// サーバーサイドレンダリング (SSR) で API データを取得
+export async function getServerSideProps() {
+  const openAiKey = process.env.OPEN_AI_KEY;
+
+  if (!openAiKey) {
+    return {
+      props: {
+        initialData: null,
+        error: "APIキーが見つかりません",
+      },
+    };
+  }
+
+  try {
+    const response = await fetch(`https://api.openai.com/v1/your-endpoint`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openAiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        // 必要なリクエストデータをここに設定
+        prompt: 'Hello, how can I assist you today?',
+        max_tokens: 10,
+      }),
+    });
+
+    const data = await response.json();
+
+    return {
+      props: {
+        initialData: data,
+        error: null,
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        initialData: null,
+        error: "データの取得に失敗しました",
+      },
+    };
+  }
+}
+
+const Home = ({ initialData, error }: Props) => {
+  const [data, setData] = useState(initialData);
+
+  useEffect(() => {
+    if (initialData) {
+      setData(initialData);
+    }
+  }, [initialData]);
+
+  return (
+    <div>
+      <h1>サーバーサイドレンダリングのデータ表示</h1>
+      {error ? (
+        <p>{error}</p>
+      ) : data ? (
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      ) : (
+        <p>データを読み込み中...</p>
+      )}
+    </div>
+  );
+};
+
 export default function Home() {
   const { viewer } = useContext(ViewerContext);
 
