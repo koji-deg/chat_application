@@ -322,7 +322,7 @@ export default function Home() {
     let stream;
 
     const aiServiceConfig: AIServiceConfig = {
-      openai: { key: openAiKey || process.env.OPEN_AI_KEY || "test", model: selectAIModel },
+      openai: { key: openAiKey || process.env.OPEN_AI_KEY || "", model: selectAIModel },
       anthropic: { key: anthropicKey || process.env.NEXT_PUBLIC_ANTHROPIC_KEY || "", model: selectAIModel },
       google: { key: googleKey || process.env.NEXT_PUBLIC_GOOGLE_KEY || "", model: selectAIModel },
       localLlm: { url: localLlmUrl || process.env.NEXT_PUBLIC_LOCAL_LLM_URL || "", model: selectAIModel || process.env.NEXT_PUBLIC_LOCAL_LLM_MODEL || "" },
