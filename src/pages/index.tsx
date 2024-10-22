@@ -322,7 +322,7 @@ export default function Home() {
     let stream;
 
     const aiServiceConfig: AIServiceConfig = {
-      openai: { key: openAiKey || process.env.NEXT_PUBLIC_OPEN_AI_KEY || "", model: selectAIModel },
+      openai: { key: openAiKey || process.env.OPEN_AI_KEY || "", model: selectAIModel },
       anthropic: { key: anthropicKey || process.env.NEXT_PUBLIC_ANTHROPIC_KEY || "", model: selectAIModel },
       google: { key: googleKey || process.env.NEXT_PUBLIC_GOOGLE_KEY || "", model: selectAIModel },
       localLlm: { url: localLlmUrl || process.env.NEXT_PUBLIC_LOCAL_LLM_URL || "", model: selectAIModel || process.env.NEXT_PUBLIC_LOCAL_LLM_MODEL || "" },
@@ -552,7 +552,7 @@ export default function Home() {
         }
       } else {
         // ChatVRM original mode
-        if (selectAIService === "openai" && !openAiKey && !process.env.NEXT_PUBLIC_OPEN_AI_KEY ||
+        if (selectAIService === "openai" && !openAiKey && !process.env.OPEN_AI_KEY ||
         selectAIService === "anthropic" && !anthropicKey && !process.env.NEXT_PUBLIC_ANTHROPIC_KEY ||
         selectAIService === "google" && !googleKey && !process.env.NEXT_PUBLIC_GOOGLE_KEY ||
         selectAIService === "groq" && !groqKey && !process.env.NEXT_PUBLIC_GROQ_KEY ||
