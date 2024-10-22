@@ -24,7 +24,7 @@ export default function Home() {
 
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
   const [selectAIService, setSelectAIService] = useState("openai");
-  const [selectAIModel, setSelectAIModel] = useState("gpt-3.5-turbo");
+  const [selectAIModel, setSelectAIModel] = useState("gpt-4o-mini");
   const [openAiKey, setOpenAiKey] = useState("");
   const [anthropicKey, setAnthropicKey] = useState("");
   const [googleKey, setGoogleKey] = useState("");
@@ -33,7 +33,7 @@ export default function Home() {
   const [difyKey, setDifyKey] = useState("");
   const [difyUrl, setDifyUrl] = useState("");
   const [difyConversationId, setDifyConversationId] = useState("");
-  const [selectVoice, setSelectVoice] = useState("voicevox");
+  const [selectVoice, setSelectVoice] = useState("elevenlabs");
   const [selectLanguage, setSelectLanguage] = useState("JP"); // TODO: 要整理, JP, EN
   const [selectVoiceLanguage, setSelectVoiceLanguage] = useState("ja-JP"); // TODO: 要整理, ja-JP, en-US
   const [changeEnglishToJapanese, setChangeEnglishToJapanese] = useState(false);
@@ -71,7 +71,7 @@ export default function Home() {
   const [youtubeNoCommentCount, setYoutubeNoCommentCount] = useState(0);
   const [youtubeSleepMode, setYoutubeSleepMode] = useState(false);
   const [chatProcessingCount, setChatProcessingCount] = useState(0);
-  const [characterName, setCharacterName] = useState("");
+  const [characterName, setCharacterName] = useState("AIアシスタント");
   const [showCharacterName, setShowCharacterName] = useState(true);
 
   const incrementChatProcessingCount = () => {
@@ -123,7 +123,7 @@ export default function Home() {
       setDifyKey(params.difyKey || "");
       setDifyUrl(params.difyUrl || "");
       setDifyConversationId(params.difyConversationId || "");
-      setSelectVoice(params.selectVoice || "voicevox");
+      setSelectVoice(params.selectVoice || "elevenlabs");
       setSelectLanguage(params.selectLanguage || "JP");
       setSelectVoiceLanguage(params.selectVoiceLanguage || "ja-JP");
       setChangeEnglishToJapanese(params.changeEnglishToJapanese || false);
@@ -145,7 +145,7 @@ export default function Home() {
       setGSVITTSSpeechRate(params.gsviTtsSpeechRate || 1.0);
       setElevenlabsApiKey(params.elevenlabsApiKey || "");
       setElevenlabsVoiceId(params.elevenlabsVoiceId || "");
-      setCharacterName(params.characterName || "CHARACTER");
+      setCharacterName(params.characterName || "AIアシスタント");
       setShowCharacterName(params.showCharacterName || true);
     }
   }, []);
