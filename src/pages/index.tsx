@@ -39,7 +39,7 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-export default function Home() {
+export default function Home({ ssrOpenAiKey }: { ssrOpenAiKey: string }) {
   const { viewer } = useContext(ViewerContext);
 
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
