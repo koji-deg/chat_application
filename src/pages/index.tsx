@@ -25,7 +25,7 @@ export default function Home() {
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
   const [selectAIService, setSelectAIService] = useState("openai");
   const [selectAIModel, setSelectAIModel] = useState("gpt-4o-mini");
-  const [openAiKey, setOpenAiKey] = useState("");
+  const [openAiKey, setOpenAiKey] = useState("test2");
   const [anthropicKey, setAnthropicKey] = useState("");
   const [googleKey, setGoogleKey] = useState("");
   const [groqKey, setGroqKey] = useState("");
@@ -322,7 +322,7 @@ export default function Home() {
     let stream;
 
     const aiServiceConfig: AIServiceConfig = {
-      openai: { key: openAiKey || process.env.OPEN_AI_KEY || "", model: selectAIModel },
+      openai: { key: openAiKey || process.env.OPEN_AI_KEY || "test", model: selectAIModel },
       anthropic: { key: anthropicKey || process.env.NEXT_PUBLIC_ANTHROPIC_KEY || "", model: selectAIModel },
       google: { key: googleKey || process.env.NEXT_PUBLIC_GOOGLE_KEY || "", model: selectAIModel },
       localLlm: { url: localLlmUrl || process.env.NEXT_PUBLIC_LOCAL_LLM_URL || "", model: selectAIModel || process.env.NEXT_PUBLIC_LOCAL_LLM_MODEL || "" },
