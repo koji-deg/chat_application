@@ -702,7 +702,7 @@ export default function Home() {
     <>    
 
     <div className={"font-M_PLUS_2"} style={{ backgroundImage: `url(${buildUrl(backgroundImageUrl)})`, backgroundSize: 'cover', minHeight: '100vh' }}>
-      
+
       <Meta />
         {!dontShowIntroduction && (
           <Introduction
