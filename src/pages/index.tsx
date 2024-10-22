@@ -39,7 +39,27 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-export default function Home({ ssrOpenAiKey }: { ssrOpenAiKey: string }) {
+// サーバーサイドでAPIキーを取得する関数（SSR）
+export async function getServerSideProps(context: any) {
+  const ssrElevenlabsKey = process.env.ELEVENLABS_API_KEY;
+
+  if (!ssrElevenlabsKey) {
+    return {
+      props: {
+        error: "APIキーが見つかりません",
+      },
+    };
+  }
+
+  // SSRからクライアント側に渡すpropsを返す
+  return {
+    props: {
+      ssrElevenlabsKey,
+    },
+  };
+}
+
+export default function Home({ ssrOpenAiKey }: { ssrOpenAiKey: string }, { ssrElevenlabsKey }: { ssrElevenlabsKey: string } ) {
   const { viewer } = useContext(ViewerContext);
 
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
@@ -84,7 +104,7 @@ export default function Home({ ssrOpenAiKey }: { ssrOpenAiKey: string }) {
   const [gsviTtsModelId, setGSVITTSModelID] = useState("");
   const [gsviTtsBatchSize, setGSVITTSBatchSize] = useState(2);
   const [gsviTtsSpeechRate, setGSVITTSSpeechRate] = useState(1.0);
-  const [elevenlabsApiKey, setElevenlabsApiKey] = useState(process.env.ELEVENLABS_API_KEY || "");
+  const [elevenlabsApiKey, setElevenlabsApiKey] = useState(ssrElevenlabsKey || "");
   const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState("8EkOjt4xTPGMclNlh1pk");
   const [youtubeNextPageToken, setYoutubeNextPageToken] = useState("");
   const [youtubeContinuationCount, setYoutubeContinuationCount] = useState(0);
