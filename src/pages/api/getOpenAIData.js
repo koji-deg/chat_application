@@ -1,10 +1,10 @@
-// pages/api/getOpenAIData.js
+ï»¿// pages/api/getOpenAIData.js
 
 export default async function handler(req, res) {
   const openAiKey = process.env.OPEN_AI_KEY;
 
   if (!openAiKey) {
-    return res.status(500).json({ error: "APIƒL[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ" });
+    return res.status(500).json({ error: "APIã‚­ãƒ¼ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“" });
   }
 
   const response = await fetch('https://api.openai.com/v1/your-endpoint', {
@@ -13,10 +13,10 @@ export default async function handler(req, res) {
       'Authorization': `Bearer ${openAiKey}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ data: req.body }), // •K—v‚ÈƒŠƒNƒGƒXƒgƒf[ƒ^‚ğ‘—M
+    body: JSON.stringify({ data: req.body }), // å¿…è¦ãªãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡
   });
 
   const data = await response.json();
 
-  res.status(200).json(data); // ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ÉƒŒƒXƒ|ƒ“ƒX‚ğ•Ô‚·
+  res.status(200).json(data); // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã«ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’è¿”ã™
 }
