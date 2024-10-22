@@ -64,8 +64,8 @@ export default function Home() {
   const [gsviTtsModelId, setGSVITTSModelID] = useState("");
   const [gsviTtsBatchSize, setGSVITTSBatchSize] = useState(2);
   const [gsviTtsSpeechRate, setGSVITTSSpeechRate] = useState(1.0);
-  const [elevenlabsApiKey, setElevenlabsApiKey] = useState("");
-  const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState("");
+  const [elevenlabsApiKey, setElevenlabsApiKey] = useState(process.env.ELEVENLABS_API_KEY || "");
+  const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState("8EkOjt4xTPGMclNlh1pk");
   const [youtubeNextPageToken, setYoutubeNextPageToken] = useState("");
   const [youtubeContinuationCount, setYoutubeContinuationCount] = useState(0);
   const [youtubeNoCommentCount, setYoutubeNoCommentCount] = useState(0);
