@@ -22,8 +22,10 @@ import { buildUrl } from "@/utils/buildUrl";
 // サーバーサイドでAPIキーを取得する関数（SSR）
 export async function getServerSideProps(context: any) {
   const ssrOpenAiKey = process.env.OPEN_AI_KEY;
+  const ssrElevenlabsKey = process.env.ELEVENLABS_API_KEY;
 
-  if (!ssrOpenAiKey) {
+  // エラーハンドリング
+  if (!ssrOpenAiKey || !ssrElevenlabsKey) {
     return {
       props: {
         error: "APIキーが見つかりません",
@@ -35,25 +37,6 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       ssrOpenAiKey,
-    },
-  };
-}
-
-// サーバーサイドでAPIキーを取得する関数（SSR）
-export async function getServerSideProps(context: any) {
-  const ssrElevenlabsKey = process.env.ELEVENLABS_API_KEY;
-
-  if (!ssrElevenlabsKey) {
-    return {
-      props: {
-        error: "APIキーが見つかりません",
-      },
-    };
-  }
-
-  // SSRからクライアント側に渡すpropsを返す
-  return {
-    props: {
       ssrElevenlabsKey,
     },
   };
