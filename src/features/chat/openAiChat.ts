@@ -2,36 +2,17 @@ import { OpenAI } from "openai";
 import { Message } from "../messages/messages";
 import { ChatCompletionMessageParam } from "openai/resources";
 
-// サーバーサイドでAPIキーを取得する関数（SSR）
-export async function getServerSideProps(context: any) {
-  const openAiKey = process.env.OPEN_AI_KEY;
+// 環境変数からAPIキーを取得
+const openAiKey = process.env.OPEN_AI_KEY;
 
-  if (!openAiKey) {
-    return {
-      props: {
-        error: "APIキーが見つかりません",
-      },
-    };
-  }
-
-  // SSRからクライアント側に渡すpropsを返す
-  return {
-    props: {
-      openAiKey,
-    },
-  };
-}
-
-// ChatResponse関数（SSRから取得したAPIキーを使用）
-export async function getOpenAIChatResponse(messages: Message[], model: string, ssrProps: any) {
-  const openAiKey = ssrProps.openAiKey; // SSRから取得したAPIキーを使用
-
-  if (!openAiKey) {
+export async function getOpenAIChatResponse(messages: Message[], apiKey: string, model: string) {
+  if (!apiKey) {
     throw new Error("Invalid API Key");
   }
 
   const openai = new OpenAI({
-    apiKey: openAiKey, // APIキーを上書き
+    apiKey: apiKey,
+    dangerouslyAllowBrowser: true,
   });
 
   const data = await openai.chat.completions.create({
@@ -45,16 +26,18 @@ export async function getOpenAIChatResponse(messages: Message[], model: string, 
   return { message: message };
 }
 
-// Stream API関数（SSRから取得したAPIキーを使用）
-export async function getOpenAIChatResponseStream(messages: Message[], model: string, ssrProps: any) {
-  const openAiKey = ssrProps.openAiKey; // SSRから取得したAPIキーを使用
-
-  if (!openAiKey) {
+export async function getOpenAIChatResponseStream(
+  messages: Message[],
+  apiKey: string,
+  model: string
+) {
+  if (!apiKey) {
     throw new Error("Invalid API Key");
   }
 
   const openai = new OpenAI({
-    apiKey: openAiKey, // APIキーを上書き
+    apiKey: apiKey,
+    dangerouslyAllowBrowser: true,
   });
 
   const stream = await openai.chat.completions.create({
