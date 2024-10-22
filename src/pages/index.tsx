@@ -69,7 +69,8 @@ export async function getServerSideProps() {
   }
 }
 
-const Home = ({ initialData, error }: Props) => {
+// SSRで取得したデータを表示するコンポーネント（SSRHome にリネーム）
+const SSRHome = ({ initialData, error }: Props) => {
   const [data, setData] = useState(initialData);
 
   useEffect(() => {
@@ -775,6 +776,9 @@ export default function Home() {
     <>    
 
     <div className={"font-M_PLUS_2"} style={{ backgroundImage: `url(${buildUrl(backgroundImageUrl)})`, backgroundSize: 'cover', minHeight: '100vh' }}>
+      
+      {/* SSRHome コンポーネントをレンダリング */}
+      <SSRHome initialData={null} error={null} />
 
       <Meta />
         {!dontShowIntroduction && (
