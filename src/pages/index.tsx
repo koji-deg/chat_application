@@ -42,7 +42,7 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-export default function Home({ ssrOpenAiKey }: { ssrOpenAiKey: string }, { ssrElevenlabsKey }: { ssrElevenlabsKey: string } ) {
+export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey: string, ssrElevenlabsKey: string }) {
   const { viewer } = useContext(ViewerContext);
 
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
