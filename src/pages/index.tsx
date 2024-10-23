@@ -124,6 +124,21 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
         audioRef.current = null;
       }
     };
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const correctPassword = "0000"; // 正しいパスワードをここに設定
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === correctPassword) {
+      setIsAuthenticated(true);
+    } else {
+      setErrorMessage("Incorrect password, please try again.");
+    }
+
   }, []);
  
 
@@ -723,6 +738,35 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
 
   return (
     <>    
+    <div>
+      {!isAuthenticated ? (
+        <div style={{ textAlign: "center", marginTop: "20vh" }}>
+          <h1>Please enter the password to access the app</h1>
+          <form onSubmit={handlePasswordSubmit}>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+              style={{ padding: "10px", fontSize: "16px" }}
+            />
+            <button type="submit" style={{ padding: "10px 20px", marginLeft: "10px" }}>
+              Submit
+            </button>
+          </form>
+          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        </div>
+      ) : (
+        <div>
+          {/* パスワードが正しい場合に表示されるコンテンツ */}
+          <VrmViewer />
+          <MessageInputContainer />
+          <Menu />
+        </div>
+      )}
+    </div>
+
+
 
     <div className={"font-M_PLUS_2"} style={{ backgroundImage: `url(${buildUrl(backgroundImageUrl)})`, backgroundSize: 'cover', minHeight: '100vh' }}>
 
