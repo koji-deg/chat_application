@@ -105,6 +105,21 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
     setChatProcessingCount(prevCount => prevCount - 1);
   }
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const correctPassword = "0000"; // 正しいパスワードをここに設定
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === correctPassword) {
+      setIsAuthenticated(true);
+    } else {
+      setErrorMessage("Incorrect password, please try again.");
+    }
+
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -124,21 +139,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
         audioRef.current = null;
       }
     };
-
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const correctPassword = "0000"; // 正しいパスワードをここに設定
-
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === correctPassword) {
-      setIsAuthenticated(true);
-    } else {
-      setErrorMessage("Incorrect password, please try again.");
-    }
-
+    
   }, []);
  
 
