@@ -473,15 +473,15 @@ const handleToggleAvatar = useCallback(() => {
     <>
       <div className="absolute z-10 m-24">
         <div className="grid grid-flow-col gap-[8px]">
-          <IconButton
+          {/*<IconButton
             iconName="24/Settings"
             isProcessing={false}
-            onClick={() => setShowSettings(true)}
-          ></IconButton>
+            onClick={() => setShowSettings(false)}
+          ></IconButton>*/}
 
           <IconButton
             iconName="24/Person"
-            label={selectedAvatar === 'avatar1' ? 'Avatar: 1' : 'Avatar: 2'}
+            label={selectedAvatar === 'avatar1' ? 'Avatar 1' : 'Avatar 2'}
             isProcessing={false}
             onClick={handleToggleAvatar} // ボタンをクリックするとアバターが切り替わる
           ></IconButton>

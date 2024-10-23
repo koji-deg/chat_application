@@ -128,24 +128,16 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // オーディオ要素の設定とループ再生の有効化
-    if (audioRef.current) {
+    if (isAuthenticated && audioRef.current) {
       audioRef.current.loop = true; // ループ再生を有効にする
-      audioRef.current.volume = 0.3; // 初期音量を30%に設定
-      audioRef.current.play().catch((error) => {
+      audioRef.current.play().then(() => {
+        // play()が完了した後に音量を設定
+        audioRef.current.volume = 0.3; // 初期音量を30%に設定
+      }).catch((error) => {
         console.error("オーディオの再生に失敗しました:", error);
       });
     }
-
-    return () => {
-      // コンポーネントのアンマウント時にクリーンアップ
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-    
-  }, []);
+  }, [isAuthenticated, audioRef.current]);  // isAuthenticated と audioRef.current が変わった時に再実行
  
 
 
