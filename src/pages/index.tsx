@@ -109,7 +109,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const correctPassword = "0000"; // 正しいパスワードをここに設定
+  const correctPassword = "aichat24"; // 正しいパスワードをここに設定
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,7 +118,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
     } else {
       setErrorMessage("Incorrect password, please try again.");
     }
-
+};
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -738,40 +738,45 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   }, [youtubeNoCommentCount, conversationContinuityMode]);
 
   return (
-    <>    
+    <>
+
     <div>
       {!isAuthenticated ? (
         <div style={{ textAlign: "center", marginTop: "20vh" }}>
-          <h1>Please enter the password to access the app</h1>
+          <h1 style={{ padding: "10px", fontSize: "20px" }}>パスワードを入力してください</h1>
           <form onSubmit={handlePasswordSubmit}>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
-              style={{ padding: "10px", fontSize: "16px" }}
+              style={{ padding: "10px", fontSize: "20px" }}
             />
-            <button type="submit" style={{ padding: "10px 20px", marginLeft: "10px" }}>
-              Submit
-            </button>
+            <button
+      type="submit"
+      style={{
+        padding: "10px 20px",
+        marginLeft: "10px",
+        backgroundColor: "#c04621", // ボタンの背景色
+        color: "#ffffff", // ボタンの文字色を白に
+        border: "none", // ボタンの境界線を消す
+        borderRadius: "5px", // 角を丸くする
+        cursor: "pointer", // ホバー時にポインタが変わるように
+      }}
+    >
+      Submit
+    </button>
           </form>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </div>
       ) : (
         <div>
           {/* パスワードが正しい場合に表示されるコンテンツ */}
-          <VrmViewer />
-          <MessageInputContainer />
-          <Menu />
-        </div>
-      )}
-    </div>
+          <div className={"font-M_PLUS_2"} style={{ backgroundImage: `url(${buildUrl(backgroundImageUrl)})`, backgroundSize: 'cover', minHeight: '100vh' }}>
 
-
-
-    <div className={"font-M_PLUS_2"} style={{ backgroundImage: `url(${buildUrl(backgroundImageUrl)})`, backgroundSize: 'cover', minHeight: '100vh' }}>
-
-      <Meta />
+    
+    
+    <Meta />
         {!dontShowIntroduction && (
           <Introduction
             dontShowIntroduction={dontShowIntroduction}
@@ -876,8 +881,12 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
           onChangeCharacterName={setCharacterName}
         />
 
-
       </div>
+
+        </div>
+      )}
+    </div>  
+
 
     </>
   );
