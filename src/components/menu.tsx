@@ -440,7 +440,7 @@ export const Menu = ({
           <IconButton
             iconName="24/Settings"
             isProcessing={false}
-            onClick={() => setShowSettings(true)}
+            onClick={() => setShowSettings(false)}
           ></IconButton>
           {showChatLog ? (
             <IconButton
@@ -466,7 +466,7 @@ export const Menu = ({
           (showChatLog && <ChatLog messages={chatLog} characterName={characterName} />)
       }
       {showSettings && (
-        {/*<Settings
+        <Settings
           selectAIService={selectAIService}
           onChangeAIService={handleChangeAIService}
           selectAIModel={selectAIModel}
@@ -547,7 +547,7 @@ export const Menu = ({
           onChangeCharacterName={handleCharacterName}
           showCharacterName={showCharacterName}
           onChangeShowCharacterName={handleShowCharacterName}
-        />*/}
+        />
       )}
       {!showChatLog && assistantMessage && (
         <AssistantText message={assistantMessage} characterName={characterName} showCharacterName ={showCharacterName} />
