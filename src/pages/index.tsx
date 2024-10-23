@@ -18,6 +18,9 @@ import "@/lib/i18n";
 import { useTranslation } from 'react-i18next';
 import { fetchAndProcessComments } from "@/features/youtube/youtubeComments";
 import { buildUrl } from "@/utils/buildUrl";
+// ここで toggleAvatar 関数をインポート
+import { toggleAvatar } from '@/features/constants/toggleAvatar'; 
+
 
 // サーバーサイドでAPIキーを取得する関数（SSR）
 export async function getServerSideProps(context: any) {
@@ -96,6 +99,8 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const [chatProcessingCount, setChatProcessingCount] = useState(0);
   const [characterName, setCharacterName] = useState("AIアシスタント");
   const [showCharacterName, setShowCharacterName] = useState(true);
+
+  const [selectedAvatar, setSelectedAvatar] = useState('avatar1'); // 初期はアバター1を選択
 
   const incrementChatProcessingCount = () => {
     setChatProcessingCount(prevCount => prevCount + 1);
@@ -737,6 +742,8 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
     }, INTERVAL_MILL_SECONDS_RETRIEVING_COMMENTS);
   }, [youtubeNoCommentCount, conversationContinuityMode]);
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <>
 
@@ -757,12 +764,15 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
       style={{
         padding: "10px 20px",
         marginLeft: "10px",
-        backgroundColor: "#c04621", // ボタンの背景色
-        color: "#ffffff", // ボタンの文字色を白に
-        border: "none", // ボタンの境界線を消す
-        borderRadius: "5px", // 角を丸くする
-        cursor: "pointer", // ホバー時にポインタが変わるように
+        backgroundColor: isHovered ? "#ff5733" : "#c04621", // ホバー時の背景色を動的に変更
+        color: "#ffffff",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        transition: "background-color 0.3s ease", // スムーズな色変化
       }}
+      onMouseEnter={() => setIsHovered(true)} // ホバーしたときに状態を変更
+      onMouseLeave={() => setIsHovered(false)} // ホバーを外したときに状態を元に戻す
     >
       Submit
     </button>

@@ -1,4 +1,4 @@
-import { IconButton } from "./iconButton";
+﻿import { IconButton } from "./iconButton";
 import { Message } from "@/features/messages/messages";
 import { KoeiroParam } from "@/features/constants/koeiroParam";
 import { ChatLog } from "./chatLog";
@@ -9,6 +9,8 @@ import { ViewerContext } from "@/features/vrmViewer/viewerContext";
 import { AssistantText } from "./assistantText";
 import { useTranslation } from 'react-i18next';
 import { testVoice } from "@/features/messages/speakCharacter";
+import { toggleAvatar } from '@/features/constants/toggleAvatar';
+import { buildUrl } from "@/utils/buildUrl";
 
 type Props = {
   selectAIService: string;
@@ -163,7 +165,7 @@ export const Menu = ({
   onChangeGSVITtsSpeechRate,
   elevenlabsApiKey,
   onChangeElevenlabsApiKey,
-  elevenlabsVoiceId,
+  //elevenlabsVoiceId,
   onChangeElevenlabsVoiceId,
   characterName,
   onChangeCharacterName,
@@ -433,6 +435,40 @@ export const Menu = ({
     [onChangeShowCharacterName]
   );
 
+// PropsにonChangeElevenlabsVoiceIdを追加
+type Props = {
+  onChangeElevenlabsVoiceId: (voiceId: string) => void;
+};
+
+// コンポーネント内で状態を定義
+const [selectedAvatar, setSelectedAvatar] = useState('avatar1');
+const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState<string>('8EkOjt4xTPGMclNlh1pk');
+
+// アバター切り替えのためのハンドラー
+const handleToggleAvatar = useCallback(() => {
+  setSelectedAvatar((prevAvatar) => {
+    const newAvatar = prevAvatar === 'avatar1' ? 'avatar2' : 'avatar1';
+    // ボイスIDの変更
+    const newVoiceId = newAvatar === 'avatar1' 
+      ? '8EkOjt4xTPGMclNlh1pk' 
+      : 'j210dv0vWm7fCknyQpbA';
+    setElevenlabsVoiceId(newVoiceId);
+    onChangeElevenlabsVoiceId(newVoiceId);
+
+    // アバターのVRMファイルを切り替え
+    const newVrmUrl = newAvatar === 'avatar1'
+      ? buildUrl('/AvatarSample_B.vrm')  // avatar1のVRMファイル
+      : buildUrl('/AvatarSample_B_man.vrm'); // avatar2のVRMファイル
+
+    // VRMファイルをビューアーにロード
+    viewer.loadVrm(newVrmUrl);
+
+
+    return newAvatar;
+  });
+}, [onChangeElevenlabsVoiceId, setSelectedAvatar]);
+
+
   return (
     <>
       <div className="absolute z-10 m-24">
@@ -440,8 +476,16 @@ export const Menu = ({
           <IconButton
             iconName="24/Settings"
             isProcessing={false}
-            onClick={() => setShowSettings(false)}
+            onClick={() => setShowSettings(true)}
           ></IconButton>
+
+          <IconButton
+            iconName="24/Person"
+            label={selectedAvatar === 'avatar1' ? 'Avatar: 1' : 'Avatar: 2'}
+            isProcessing={false}
+            onClick={handleToggleAvatar} // ボタンをクリックするとアバターが切り替わる
+          ></IconButton>
+
           {showChatLog ? (
             <IconButton
               iconName="24/CommentOutline"
@@ -458,6 +502,8 @@ export const Menu = ({
               onClick={() => setShowChatLog(true)}
             />
           )}
+
+
         </div>
       </div>
       {
