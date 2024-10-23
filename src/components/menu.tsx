@@ -170,7 +170,7 @@ export const Menu = ({
   showCharacterName,
   onChangeShowCharacterName,
 }: Props) => {
-  const [showSettings, setShowSettings] = useState(false);
+  const [showSettings, setShowSettings] = useState(true);
   const [showChatLog, setShowChatLog] = useState(false);
   const { viewer } = useContext(ViewerContext);
   const fileInputRef = useRef<HTMLInputElement>(null);
