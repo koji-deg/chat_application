@@ -13,7 +13,8 @@ export const IconButton = ({
   ...rest
 }: Props) => {
   return (
-    /*<button
+    <div>dummy</div>
+  /*<button
       {...rest}
       className={`bg-primary hover:bg-primary-hover active:bg-primary-press disabled:bg-primary-disabled text-white rounded-16 text-sm p-8 text-center inline-flex items-center mr-2
         ${rest.className}
