@@ -445,15 +445,15 @@ const [selectedAvatar, setSelectedAvatar] = useState<number>(1);
 const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState<string>('8EkOjt4xTPGMclNlh1pk');
 
 // アバターとボイスID、VRM URLのマッピング
-const avatarVoiceMap = {
+const avatarVoiceMap: { [key: number]: string } = {
   1: '8EkOjt4xTPGMclNlh1pk',
   2: 'j210dv0vWm7fCknyQpbA',
   3: '8EkOjt4xTPGMclNlh1pk',
-  4: '3JDquces8E8bkmvbh6Bc',
-  5: '3JDquces8E8bkmvbh6Bc'
+  4: 'j210dv0vWm7fCknyQpbA',
+  5: 'j210dv0vWm7fCknyQpbA'
 };
 
-const avatarVrmUrlMap = {
+const avatarVrmUrlMap: { [key: number]: string } = {
   1: buildUrl('/AvatarSample_B.vrm'),
   2: buildUrl('/AvatarSample_B_man.vrm'),
   3: buildUrl('/AvatarSample_B_woman_0.8_.vrm'),
