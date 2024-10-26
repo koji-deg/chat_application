@@ -17,7 +17,7 @@ export class ExpressionController {
   private _autoLookAt: AutoLookAt;
   private _autoBlink?: AutoBlink;
   private _expressionManager?: VRMExpressionManager;
-  private _currentEmotion: VRMExpressionPresetName;
+  private _currentEmotion: "relaxed";
   private _currentLipSync: {
     preset: VRMExpressionPresetName;
     value: number;

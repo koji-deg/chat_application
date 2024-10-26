@@ -441,32 +441,48 @@ type Props = {
 };
 
 // コンポーネント内で状態を定義
-const [selectedAvatar, setSelectedAvatar] = useState('avatar1');
+const [selectedAvatar, setSelectedAvatar] = useState<number>(1);
 const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState<string>('8EkOjt4xTPGMclNlh1pk');
+
+// アバターとボイスID、VRM URLのマッピング
+const avatarVoiceMap = {
+  1: '8EkOjt4xTPGMclNlh1pk',
+  2: 'j210dv0vWm7fCknyQpbA',
+  3: '8EkOjt4xTPGMclNlh1pk',
+  4: '3JDquces8E8bkmvbh6Bc',
+  5: '3JDquces8E8bkmvbh6Bc'
+};
+
+const avatarVrmUrlMap = {
+  1: buildUrl('/AvatarSample_B.vrm'),
+  2: buildUrl('/AvatarSample_B_man.vrm'),
+  3: buildUrl('/AvatarSample_B_woman_0.8_.vrm'),
+  4: buildUrl('/AvatarSample_B_seinen_0.8.vrm'),
+  5: buildUrl('/AvatarSample_B_ojisan_0.8.vrm')
+};
 
 // アバター切り替えのためのハンドラー
 const handleToggleAvatar = useCallback(() => {
   setSelectedAvatar((prevAvatar) => {
-    const newAvatar = prevAvatar === 'avatar1' ? 'avatar2' : 'avatar1';
-    // ボイスIDの変更
-    const newVoiceId = newAvatar === 'avatar1' 
-      ? '8EkOjt4xTPGMclNlh1pk' 
-      : 'j210dv0vWm7fCknyQpbA';
-    setElevenlabsVoiceId(newVoiceId);
-    onChangeElevenlabsVoiceId(newVoiceId);
+    // アバター1から5までをループする
+    const nextAvatar = prevAvatar === 5 ? 1 : prevAvatar + 1;
+    
+    try {
+      // ボイスIDの変更
+      const newVoiceId = avatarVoiceMap[nextAvatar];
+      setElevenlabsVoiceId(newVoiceId);
+      onChangeElevenlabsVoiceId(newVoiceId);
 
-    // アバターのVRMファイルを切り替え
-    const newVrmUrl = newAvatar === 'avatar1'
-      ? buildUrl('/AvatarSample_B.vrm')  // avatar1のVRMファイル
-      : buildUrl('/AvatarSample_B_man.vrm'); // avatar2のVRMファイル
+      // アバターのVRMファイルを切り替え
+      const newVrmUrl = avatarVrmUrlMap[nextAvatar];
+      viewer.loadVrm(newVrmUrl);
+    } catch (error) {
+      console.error('Failed to load VRM or change voice ID:', error);
+    }
 
-    // VRMファイルをビューアーにロード
-    viewer.loadVrm(newVrmUrl);
-
-
-    return newAvatar;
+    return nextAvatar;
   });
-}, [onChangeElevenlabsVoiceId, setSelectedAvatar]);
+}, [onChangeElevenlabsVoiceId, avatarVoiceMap, avatarVrmUrlMap, viewer]);
 
 
   return (
@@ -479,12 +495,12 @@ const handleToggleAvatar = useCallback(() => {
             onClick={() => setShowSettings(false)}
           ></IconButton>*/}
 
-          <IconButton
-            iconName="24/Person"
-            label={selectedAvatar === 'avatar1' ? 'Avatar 1' : 'Avatar 2'}
-            isProcessing={false}
-            onClick={handleToggleAvatar} // ボタンをクリックするとアバターが切り替わる
-          ></IconButton>
+<IconButton
+  iconName="24/Person"
+  label={`Avatar ${selectedAvatar}`}
+  isProcessing={false}
+  onClick={handleToggleAvatar}
+></IconButton>
 
           {showChatLog ? (
             <IconButton
