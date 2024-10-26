@@ -449,8 +449,8 @@ const avatarVoiceMap: { [key: number]: string } = {
   1: '8EkOjt4xTPGMclNlh1pk',
   2: 'j210dv0vWm7fCknyQpbA',
   3: '8EkOjt4xTPGMclNlh1pk',
-  4: 'j210dv0vWm7fCknyQpbA',
-  5: 'j210dv0vWm7fCknyQpbA'
+  4: '3JDquces8E8bkmvbh6Bc',
+  5: '3JDquces8E8bkmvbh6Bc'
 };
 
 const avatarVrmUrlMap: { [key: number]: string } = {
