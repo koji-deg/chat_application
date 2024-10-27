@@ -739,7 +739,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const [isHovered, setIsHovered] = useState(false);
 
   const notice_items = [
-    '①トライアルは5-10分程度を目安にご利用ください。',
+    '①5-10分程度を目安にご利用ください。',
     '②リンク・パスワードの情報は第三者に共有しないようご注意願います。',
     '③現状対話記録は残らない仕様になっておりますが、秘匿性の高い情報などはインプットしないようにご配慮願います。',
     '④音声が流れる仕様になっていますので、起動時にはご注意ください。'
@@ -765,21 +765,21 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
     padding: '16px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     maxWidth: '600px',
-    margin: '20px auto', // 上下に20pxのマージンを追加（上下左右の余白を設定）
+    margin: '16px auto', // 上下左右に余白を設定
     backgroundColor: '#fff'
   },
   list: {
     padding: '0',
     margin: '0',
-    listStylePosition: 'inside', // リストの番号を左に揃える
-    textAlign: 'left'
+    listStylePosition: 'inside' as const, // 型を修正
+    textAlign: 'left' as const // 必要であればこちらも修正
   },
   listItem: {
     marginBottom: '8px'
   },
   link: {
-    color: '#007BFF', // リンクの色を指定
-    textDecoration: 'underline', // 下線を引く
+    color: '#007BFF',
+    textDecoration: 'none'
   }
 };
 
@@ -788,8 +788,21 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
 
     <div>
       {!isAuthenticated ? (
-        <div style={{ textAlign: "center", marginTop: "20vh" }}>
-          <h1 style={{ padding: "10px", fontSize: "20px" }}>パスワードを入力してください</h1>
+        
+      <div style={{ textAlign: "center", marginTop: "20vh" }}>
+      <h1 style={{ 
+          padding: "20px", 
+          fontSize: "40px", 
+          fontWeight: "bold", 
+          color: "#007BFF", 
+          backgroundColor: "#F0F0F0",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%", }}>
+        振り返り支援機能（デモ版）
+        </h1>    
+      <h1 style={{ padding: "10px", fontSize: "20px" }}>パスワードを入力してください</h1>
           <form onSubmit={handlePasswordSubmit}>
             <input
               type="password"

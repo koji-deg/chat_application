@@ -1,4 +1,4 @@
-import { IconButton } from "./iconButton";
+﻿import { IconButton } from "./iconButton";
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 
@@ -62,7 +62,7 @@ export const MessageInput = ({
               onClick={onClickMicButton}
             />
             <textarea
-              placeholder={isChatProcessing ? `${t('AnswerGenerating')}${loadingDots}` : t('EnterYourQuestion')}
+              placeholder={isChatProcessing ? `${t('AnswerGenerating')}${loadingDots}` : "コメントを入力してください（例：こんにちは、今週の振り返りを手伝って！）"}
               onChange={onChangeUserMessage}
               onKeyDown={handleKeyPress}
               disabled={isChatProcessing}
