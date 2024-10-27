@@ -44,7 +44,7 @@ export async function getOpenAIChatResponseStream(
     model: model,
     messages: messages as ChatCompletionMessageParam[],
     stream: true,
-    max_tokens: 200,
+    max_tokens: 300,
   });
 
   const res = new ReadableStream({

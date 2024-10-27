@@ -738,6 +738,51 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
 
   const [isHovered, setIsHovered] = useState(false);
 
+  const notice_items = [
+    '①トライアルは5-10分程度を目安にご利用ください。',
+    '②リンク・パスワードの情報は第三者に共有しないようご注意願います。',
+    '③現状対話記録は残らない仕様になっておりますが、秘匿性の高い情報などはインプットしないようにご配慮願います。',
+    '④音声が流れる仕様になっていますので、起動時にはご注意ください。'
+  ];
+
+  const infoItems = [
+    {
+      beforeText:'①',
+      text: 'アンケート',
+      link: 'https://forms.gle/WgSeXsCrMesKMez1A',
+      afterText: 'へのご協力をお願いいたします。'
+    },
+    {
+      text: '②下記のQRコードで、モバイル端末からもご使用いただけます'
+    }
+  ];
+
+
+  const styles = {
+  card: {
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    maxWidth: '600px',
+    margin: '20px auto', // 上下に20pxのマージンを追加（上下左右の余白を設定）
+    backgroundColor: '#fff'
+  },
+  list: {
+    padding: '0',
+    margin: '0',
+    listStylePosition: 'inside', // リストの番号を左に揃える
+    textAlign: 'left'
+  },
+  listItem: {
+    marginBottom: '8px'
+  },
+  link: {
+    color: '#007BFF', // リンクの色を指定
+    textDecoration: 'underline', // 下線を引く
+  }
+};
+
   return (
     <>
 
@@ -772,7 +817,44 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
     </button>
           </form>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-        </div>
+        
+          
+
+          <div style={styles.card}>
+          <p style={{ padding: "10px", fontSize: "20px" }}>【注意事項】</p>  
+      <ol style={styles.list}>
+        {notice_items.map((item, index) => ( 
+        <li key={index} style={styles.listItem}>
+            {item}
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div style={styles.card}>
+          <p style={{ padding: "10px", fontSize: "20px" }}>【その他】</p>  
+      <ol style={styles.list}>
+  {infoItems.map((item, index) => (
+    <li key={index} style={styles.listItem}>
+      {item.link ? (
+        <>
+          {item.beforeText}
+          <a href={item.link} style={styles.link} target="_blank" rel="noopener noreferrer">
+            {item.text}
+          </a>
+          {item.afterText}
+        </>
+      ) : (
+        item.text
+      )}
+    </li>
+  ))}
+</ol>
+
+      <img src="./qrcode_aichat-application.vercel.app.png" width="200" />
+    </div>
+
+          </div>
       ) : (
         <div>
           {/* パスワードが正しい場合に表示されるコンテンツ */}
