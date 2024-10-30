@@ -3,6 +3,7 @@ import { Model } from "./model";
 import { loadVRMAnimation } from "@/lib/VRMAnimation/loadVRMAnimation";
 import { buildUrl } from "@/utils/buildUrl";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { loadMixamoAnimation } from '@/lib/fbxAnimation/loadMixamoAnimation';
 
 /**
  * three.jsを使った3Dビューワー
@@ -20,7 +21,12 @@ export class Viewer {
   private _cameraControls?: OrbitControls;
 
   constructor() {
-    this.isReady = false;
+    
+  // current animation
+    this._currentAnimationUrl = buildUrl("/idle2.vrma");
+    this._currentAnimationType = "vrma";
+  
+  this.isReady = false;
 
     // scene
     const scene = new THREE.Scene();
@@ -64,9 +70,13 @@ export class Viewer {
    // モデルを手前側に傾ける (X軸方向の回転)
   this.model.vrm.scene.rotation.x = THREE.MathUtils.degToRad(5); // 5度手前に傾ける
 
-
-      const vrma = await loadVRMAnimation(buildUrl("/idle2.vrma"));
+      if (this._currentAnimationUrl && this._currentAnimationType === "vrma") {
+      const vrma = await loadVRMAnimation(this._currentAnimationUrl);
       if (vrma) this.model.loadAnimation(vrma);
+      } else if (this._currentAnimationUrl && this._currentAnimationType === "fbx") {
+        this.loadFbx(this._currentAnimationUrl);
+      }
+
 
       // HACK: アニメーションの原点がずれているので再生後にカメラ位置を調整する
       requestAnimationFrame(() => {
