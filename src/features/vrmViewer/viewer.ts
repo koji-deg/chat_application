@@ -19,6 +19,8 @@ export class Viewer {
   private _scene: THREE.Scene;
   private _camera?: THREE.PerspectiveCamera;
   private _cameraControls?: OrbitControls;
+  private _currentAnimationUrl: string;       // 追加
+  private _currentAnimationType: string;      // 追加
 
   constructor() {
     
