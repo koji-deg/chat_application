@@ -98,9 +98,9 @@ export class Viewer {
       if (this._currentAnimationUrl && this._currentAnimationType === "vrma") {
       const vrma = await loadVRMAnimation(this._currentAnimationUrl);
       if (vrma) this.model.loadAnimation(vrma);
-      } else if (this._currentAnimationUrl && this._currentAnimationType === "fbx") {
+      } {/*else if (this._currentAnimationUrl && this._currentAnimationType === "fbx") {
         this.loadFbx(this._currentAnimationUrl);
-      }
+      }*/}
 
 
       // HACK: アニメーションの原点がずれているので再生後にカメラ位置を調整する
