@@ -87,9 +87,9 @@ export default function VrmViewer() {
             viewer.loadVrm(url);
           } else if (file_type === "vrma") {
             viewer.loadVrma(url);
-          } else if (file_type === "fbx") {
+          } {/*else if (file_type === "fbx") {
             viewer.loadFbx(url);
-          }
+          }*/}
         });
       }
     },
