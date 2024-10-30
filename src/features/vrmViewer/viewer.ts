@@ -3,7 +3,7 @@ import { Model } from "./model";
 import { loadVRMAnimation } from "@/lib/VRMAnimation/loadVRMAnimation";
 import { buildUrl } from "@/utils/buildUrl";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { loadMixamoAnimation } from '@/lib/fbxAnimation/loadMixamoAnimation';
+// import { loadMixamoAnimation } from '@/lib/fbxAnimation/loadMixamoAnimation';
 
 /**
  * three.jsを使った3Dビューワー
