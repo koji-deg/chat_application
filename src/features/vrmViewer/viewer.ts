@@ -65,7 +65,7 @@ export class Viewer {
   this.model.vrm.scene.rotation.x = THREE.MathUtils.degToRad(5); // 5度手前に傾ける
 
 
-      const vrma = await loadVRMAnimation(buildUrl("/idle_loop.vrma"));
+      const vrma = await loadVRMAnimation(buildUrl("/idle2.vrma"));
       if (vrma) this.model.loadAnimation(vrma);
 
       // HACK: アニメーションの原点がずれているので再生後にカメラ位置を調整する
@@ -75,12 +75,22 @@ export class Viewer {
     });
   }
 
-  public unloadVRM(): void {
-    if (this.model?.vrm) {
-      this._scene.remove(this.model.vrm.scene);
-      this.model?.unLoadVrm();
+  public async loadVrma(url: string) {
+  console.log("loadVrmaが呼ばれました:", url);  // デバッグログ
+  if (this.model?.vrm) {
+    this._currentAnimationUrl = url;
+    this._currentAnimationType = "vrma";
+    const vrma = await loadVRMAnimation(this._currentAnimationUrl);
+    if (vrma) {
+      await this.model.loadAnimation(vrma);
     }
+    requestAnimationFrame(() => {
+      this.resetCamera();
+    });
   }
+}
+
+
 
   /**
    * Reactで管理しているCanvasを後から設定する

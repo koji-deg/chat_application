@@ -1,6 +1,7 @@
 ﻿import { IconButton } from "./iconButton";
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback} from 'react';
+import { switchToAnimation, resetAnimation } from "@/components/vrmViewer"; // Assuming relative path to VrmViewer
 
 type Props = {
   userMessage: string;
@@ -39,14 +40,25 @@ export const MessageInput = ({
   }, [isChatProcessing]);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (!event.nativeEvent.isComposing && event.key === 'Enter' && !event.shiftKey && userMessage.trim() !== '') {
-      onClickSendButton(event as unknown as React.MouseEvent<HTMLButtonElement>);
-      setRows(1);
-    } else if (event.key === 'Enter' && event.shiftKey) {
-      setRows(rows + 1);
-    } else if (event.key === 'Backspace' && rows > 1 && userMessage.slice(-1) === '\n') {
-      setRows(rows - 1);
+  if (!event.nativeEvent.isComposing && event.key === 'Enter' && !event.shiftKey && userMessage.trim() !== '') {
+    handleSendMessage(event); // handleSendMessageで送信とアニメーション再生
+    setRows(1);
+  } else if (event.key === 'Enter' && event.shiftKey) {
+    setRows(rows + 1);
+  } else if (event.key === 'Backspace' && rows > 1 && userMessage.slice(-1) === '\n') {
+    setRows(rows - 1);
+  }
+};
+
+const handleSendMessage = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // アニメーションを再生するためのカスタムイベントを発火
+    const canvas = document.querySelector("canvas");
+    if (canvas) {
+      const playNodAnimationEvent = new Event("playNodAnimation");
+      canvas.dispatchEvent(playNodAnimationEvent);
     }
+    // 送信ボタンのクリック処理を呼び出す
+    onClickSendButton(event as React.MouseEvent<HTMLButtonElement>);
   };
 
   return (
@@ -77,7 +89,7 @@ export const MessageInput = ({
               className="bg-secondary hover:bg-secondary-hover active:bg-secondary-press disabled:bg-secondary-disabled"
               isProcessing={isChatProcessing}
               disabled={isChatProcessing || !userMessage}
-              onClick={onClickSendButton}
+              onClick={handleSendMessage} // handleSendMessageで送信とアニメーション再生
             />
           </div>
         </div>

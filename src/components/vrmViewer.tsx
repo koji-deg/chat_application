@@ -30,6 +30,17 @@ export default function VrmViewer() {
     [viewer]
   );
 
+  const switchToNodAnimation = () => {
+    viewer.loadVrma(buildUrl("/うなづき.vrma"));
+  };
+
+  const resetAnimation = () => {
+    setTimeout(() => {
+      viewer.loadVrma(buildUrl("/idle2.vrma"));
+    }, 4000);
+  };
+
+
   // アバター切り替えのためのハンドラー
   const handleToggleAvatar = useCallback(() => {
     toggleAvatar(setSelectedAvatar, setSelectedAvatar => {
@@ -45,52 +56,41 @@ export default function VrmViewer() {
         viewer.setup(canvas);
         loadVrmForAvatar(selectedAvatar); // 初期アバターのVRMを読み込む
 
-        // Drag and DropでVRMを差し替え
-        const handleDragOver = (event: DragEvent) => {
-          event.preventDefault();
-        };
+        // Add event listener for custom 'playNodAnimation' event
+        canvas.addEventListener("playNodAnimation", () => {
+          switchToNodAnimation(); // nod animationを再生
+          resetAnimation(); // 1.5秒後にidle animationに戻す
+        });
 
-        const handleDrop = (event: DragEvent) => {
+        // Drag and DropでVRMを差し替え
+        canvas.addEventListener("dragover", function (event) {
+          event.preventDefault();
+        });
+
+        canvas.addEventListener("drop", function (event) {
           event.preventDefault();
 
           const files = event.dataTransfer?.files;
-          if (!files || files.length === 0) {
+          if (!files) {
             return;
           }
 
           const file = files[0];
-          const fileType = file.name.split(".").pop()?.toLowerCase();
-          if (fileType === "vrm") {
-            const blob = new Blob([file], { type: "application/octet-stream" });
-            const url = window.URL.createObjectURL(blob);
-
-            // VRMを非同期でロード
-            const loadDroppedVrm = async () => {
-              try {
-                setIsLoading(true); // ローディング開始
-                await viewer.loadVrm(url); // ファイルのロード
-              } catch (error) {
-                console.error("Error loading dropped VRM:", error); // エラーをキャッチ
-              } finally {
-                setIsLoading(false); // ローディング終了
-              }
-            };
-
-            loadDroppedVrm();
-          } else {
-            console.warn("Unsupported file type:", fileType); // ファイルタイプが異なる場合に警告
+          if (!file) {
+            return;
           }
-        };
 
-        // イベントリスナーの追加
-        canvas.addEventListener("dragover", handleDragOver);
-        canvas.addEventListener("drop", handleDrop);
-
-        // クリーンアップ関数でイベントリスナーを削除
-        return () => {
-          canvas.removeEventListener("dragover", handleDragOver);
-          canvas.removeEventListener("drop", handleDrop);
-        };
+          const file_type = file.name.split(".").pop();
+          const blob = new Blob([file], { type: "application/octet-stream" });
+          const url = window.URL.createObjectURL(blob);
+          if (file_type === "vrm") {
+            viewer.loadVrm(url);
+          } else if (file_type === "vrma") {
+            viewer.loadVrma(url);
+          } else if (file_type === "fbx") {
+            viewer.loadFbx(url);
+          }
+        });
       }
     },
     [viewer, selectedAvatar, loadVrmForAvatar]
