@@ -21,7 +21,7 @@ import { buildUrl } from "@/utils/buildUrl";
 // ここで toggleAvatar 関数をインポート
 import { toggleAvatar } from '@/features/constants/toggleAvatar'; 
 
-import { vrma } from "@/components/vrmViewer";
+//import { vrma } from "@/components/vrmViewer";
 
 
 // サーバーサイドでAPIキーを取得する関数（SSR）
