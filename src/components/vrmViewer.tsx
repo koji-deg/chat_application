@@ -1,7 +1,7 @@
 import { useContext, useCallback, useState } from "react";
 import { ViewerContext } from "../features/vrmViewer/viewerContext";
 import { buildUrl } from "@/utils/buildUrl";
-import { toggleAvatar } from '@/features/constants/toggleAvatar'; 
+//import { toggleAvatar } from '@/features/constants/toggleAvatar'; 
 
 export default function VrmViewer() {
   const { viewer } = useContext(ViewerContext);
@@ -98,11 +98,10 @@ export default function VrmViewer() {
 
   return (
     <div className={"absolute top-0 left-0 w-screen h-[100svh]"}>
-      <button onClick={handleToggleAvatar}>
-        Toggle Avatar
-      </button>
-      <canvas ref={canvasRef} className={"h-full w-full"}></canvas>
-      {isLoading && <div className="loading-spinner">Loading...</div>} {/* ローディング中の表示 */}
+      {/*<button onClick={handleToggleAvatar}>
+      </button>*/}
+     <canvas ref={canvasRef} className={"h-full w-full"}></canvas>
+      {isLoading && <div className="loading-spinner"></div>} {/* ローディング中の表示 */}
     </div>
   );
 }

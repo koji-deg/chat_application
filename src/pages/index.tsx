@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { fetchAndProcessComments } from "@/features/youtube/youtubeComments";
 import { buildUrl } from "@/utils/buildUrl";
 // ここで toggleAvatar 関数をインポート
-import { toggleAvatar } from '@/features/constants/toggleAvatar'; 
+//import { toggleAvatar } from '@/features/constants/toggleAvatar'; 
 
 //import { vrma } from "@/components/vrmViewer";
 
@@ -873,9 +873,11 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
       ) : (
         <div>
           {/* パスワードが正しい場合に表示されるコンテンツ */}
-          <div className={"font-M_PLUS_2"} style={{ backgroundImage: `url(${buildUrl(backgroundImageUrl)})`, backgroundSize: 'cover', minHeight: '100vh' }}>
-
-    
+          <div className={"font-M_PLUS_2"} style={{ 
+              backgroundImage: `url(${buildUrl(backgroundImageUrl)})`,
+              backgroundSize: 'cover', 
+              minHeight: '100vh' 
+          }} className="relative">
     
     <Meta />
         {!dontShowIntroduction && (
@@ -899,7 +901,6 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
           onChatProcessStart={handleSendChat}
           selectVoiceLanguage={selectVoiceLanguage}
         />
-
 
         <Menu
           selectAIService={selectAIService}
