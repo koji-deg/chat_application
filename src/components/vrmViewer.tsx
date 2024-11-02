@@ -37,7 +37,7 @@ export default function VrmViewer() {
   const resetAnimation = () => {
     setTimeout(() => {
       viewer.loadVrma(buildUrl("/idle2.vrma"));
-    }, 3400);
+    }, 4800);
   };
 
 

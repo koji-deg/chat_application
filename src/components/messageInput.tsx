@@ -1,6 +1,6 @@
 ﻿import { IconButton } from "./iconButton";
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect, useCallback} from 'react';
+import { useState, useEffect, useCallback, useRef} from 'react';
 //import { switchToNodAnimation, resetAnimation } from "@/components/vrmViewer"; // Assuming relative path to VrmViewer
 
 type Props = {
