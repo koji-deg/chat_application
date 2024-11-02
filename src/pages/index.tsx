@@ -877,7 +877,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
               backgroundImage: `url(${buildUrl(backgroundImageUrl)})`,
               backgroundSize: 'cover', 
               minHeight: '100vh' 
-          }} className="relative">
+          }}>
     
     <Meta />
         {!dontShowIntroduction && (
