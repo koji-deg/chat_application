@@ -41,15 +41,6 @@ export default function VrmViewer() {
   };
 
 
-  // アバター切り替えのためのハンドラー
-  const handleToggleAvatar = useCallback(() => {
-    toggleAvatar(setSelectedAvatar, setSelectedAvatar => {
-      const newAvatar = setSelectedAvatar === 'avatar1' ? 'avatar2' : 'avatar1';
-      loadVrmForAvatar(newAvatar); // アバター切り替え時にVRMファイルもロードする
-      return newAvatar;
-    });
-  }, [loadVrmForAvatar]);
-
   const canvasRef = useCallback(
     (canvas: HTMLCanvasElement) => {
       if (canvas) {
