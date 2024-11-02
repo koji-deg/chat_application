@@ -98,8 +98,6 @@ export default function VrmViewer() {
 
   return (
     <div className={"absolute top-0 left-0 w-screen h-[100svh]"}>
-      {/*<button onClick={handleToggleAvatar}>
-      </button>*/}
      <canvas ref={canvasRef} className={"h-full w-full"}></canvas>
       {isLoading && <div className="loading-spinner"></div>} {/* ローディング中の表示 */}
     </div>
