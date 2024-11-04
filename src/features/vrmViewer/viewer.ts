@@ -197,7 +197,7 @@ export class Viewer {
       this._isMobileView = true;
       this._camera.position.set(0, 0, 2);
       //this.model.vrm.scene.scale.set(0.7, 0.7, 0.7);
-      this.model.vrm.scene.position.set(0, -1, -0.5);
+      this.model?.vrm?.scene?.position.set(0, -1, -0.5);
       this._cameraControls?.target.set(-1, -1, 2);
       this._cameraControls?.target.set(headWPos.x, headWPos.y - 0.1, headWPos.z);
     } else {
@@ -206,7 +206,7 @@ export class Viewer {
       //this.model.vrm.scene.scale.set(1, 1, 1);
       //this.model.vrm.scene.position.set(0, headWPos.y - 1, 0);
       this._camera.position.set(0, 1.3, 1.5);
-      this.model.vrm.scene.position.set(0, 0, 0);
+      this.model?.vrm?.scene?.position.set(0, 0, 0);
       this._cameraControls?.target.set(0, 1.3, 0);
       this._cameraControls?.target.set(headWPos.x, headWPos.y + 0.02, headWPos.z);
     }
