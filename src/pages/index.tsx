@@ -154,7 +154,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
  
 
 
-  useEffect(() => {
+  {/*useEffect(() => {
     const storedData = window.localStorage.getItem("chatVRMParams");
     if (storedData) {
       const params = JSON.parse(storedData);
@@ -198,6 +198,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
       setShowCharacterName(params.showCharacterName || true);
     }
   }, []);
+  */}
 
   useEffect(() => {
     const params = {
@@ -240,11 +241,11 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
       characterName,
       showCharacterName
     };
-    process.nextTick(() =>
-      window.localStorage.setItem(
-        "chatVRMParams", JSON.stringify(params)
-      )
-    );
+    //process.nextTick(() =>
+    //  window.localStorage.setItem(
+    //    "chatVRMParams", JSON.stringify(params)
+    //  )
+    //);
   }, [
     systemPrompt,
     koeiroParam,

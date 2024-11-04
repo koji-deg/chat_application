@@ -206,11 +206,11 @@ export const Settings = ({
     <div className="absolute z-40 w-full h-full bg-white/80 backdrop-blur ">
       <GitHubLink />
       <div className="absolute m-24">
-        {/*<IconButton
+        <IconButton
           iconName="24/Close"
           isProcessing={false}
           onClick={onClickClose}
-        ></IconButton>*/}
+        ></IconButton>
       </div>
       <div className="absolute py-4 bg-[#413D43] text-center text-white font-Montserrat bottom-0 w-full">
         powered by Pixiv, VRoid, Koemotion, VOICEVOX, OpenAI, Anthropic, Google, Groq, Dify
