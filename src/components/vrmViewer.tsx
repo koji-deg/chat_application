@@ -50,7 +50,7 @@ export default function VrmViewer() {
         // Add event listener for custom 'playNodAnimation' event
         canvas.addEventListener("playNodAnimation", () => {
           switchToNodAnimation(); // nod animationを再生
-          resetAnimation(); // 1.5秒後にidle animationに戻す
+          resetAnimation(); // idle animationに戻す
         });
 
         // Drag and DropでVRMを差し替え

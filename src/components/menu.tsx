@@ -446,7 +446,7 @@ const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState<string>('8EkOjt4xTPGM
 
 // アバターとボイスID、VRM URLのマッピング
 const avatarVoiceMap: { [key: number]: string } = {
-  1: '8EkOjt4xTPGMclNlh1pk',
+  1: 'RBnMinrYKeccY3vaUxlZ',
   2: 'j210dv0vWm7fCknyQpbA',
   3: '8EkOjt4xTPGMclNlh1pk',
   4: '3JDquces8E8bkmvbh6Bc',
@@ -489,11 +489,11 @@ const handleToggleAvatar = useCallback(() => {
     <>
       <div className="absolute z-10 m-24">
         <div className="grid grid-flow-col gap-[8px]">
-          {/*<IconButton
+          <IconButton
             iconName="24/Settings"
             isProcessing={false}
-            onClick={() => setShowSettings(false)}
-          ></IconButton>*/}
+            onClick={() => setShowSettings(true)}
+          ></IconButton>
 
 <IconButton
   iconName="24/Person"

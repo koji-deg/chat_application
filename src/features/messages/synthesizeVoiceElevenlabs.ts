@@ -1,4 +1,4 @@
-function createWavHeader(dataLength: number) {
+﻿function createWavHeader(dataLength: number) {
   const buffer = new ArrayBuffer(44);
   const view = new DataView(buffer);
 
@@ -65,7 +65,13 @@ export async function synthesizeVoiceElevenlabsApi(
     body: JSON.stringify({
       "text": message,
       'model_id': "eleven_turbo_v2_5",
-      'language_code': getLanguageCode(language)
+      //'model_id': "eleven_multilingual_v2",
+      'language_code': getLanguageCode(language),
+      'voice_settings': {
+        'stability': 0.7,
+        'similarity_boost': 0.3,
+        'speed': 0.5 // 発話速度を0.5倍（ゆっくり）
+      }
     }),
   });
 

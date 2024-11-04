@@ -5,6 +5,7 @@ import { KoeiroParam } from "../constants/koeiroParam";
 export type Message = {
   role: string; // "assistant" | "system" | "user";
   content: string;
+  username?: string; // ユーザー名を追加
 };
 
 const talkStyles = [

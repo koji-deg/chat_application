@@ -5,6 +5,7 @@ type Props = {
   isChatProcessing: boolean;
   onChatProcessStart: (text: string) => void;
   selectVoiceLanguage: string;
+  username: string; // ユーザー名を追加
 };
 
 /**
@@ -16,7 +17,8 @@ type Props = {
 export const MessageInputContainer = ({
   isChatProcessing,
   onChatProcessStart,
-  selectVoiceLanguage
+  selectVoiceLanguage,
+  username, // ここでusernameを受け取る
 }: Props) => {
   const [userMessage, setUserMessage] = useState("");
   const [speechRecognition, setSpeechRecognition] =
@@ -33,7 +35,7 @@ export const MessageInputContainer = ({
       if (event.results[0].isFinal) {
         setUserMessage(text);
         // 返答文の生成を開始
-        onChatProcessStart(text);
+        onChatProcessStart(`（ユーザー名：${username}） ${text}`);
       }
     },
     [onChatProcessStart]
@@ -57,8 +59,9 @@ export const MessageInputContainer = ({
   }, [isMicRecording, speechRecognition]);
 
   const handleClickSendButton = useCallback(() => {
-    onChatProcessStart(userMessage);
-  }, [onChatProcessStart, userMessage]);
+    // ユーザー名を付与してメッセージを送信
+    onChatProcessStart(`（ユーザー名：${username}） ${userMessage}`);
+  }, [onChatProcessStart, userMessage, username]);
 
   useEffect(() => {
     const SpeechRecognition =

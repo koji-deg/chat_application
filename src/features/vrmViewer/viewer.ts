@@ -22,6 +22,8 @@ export class Viewer {
   private _currentAnimationUrl: string;       // 追加
   private _currentAnimationType: string;      // 追加
 
+  private _isMobileView: boolean = false; // 追加: モバイル表示かどうかのフラグ
+
 
   constructor() {
     
@@ -183,6 +185,35 @@ export class Viewer {
     this._camera.aspect =
       parentElement.clientWidth / parentElement.clientHeight;
     this._camera.updateProjectionMatrix();
+
+ // headノードのワールド座標を取得
+  const headNode = this.model.vrm.humanoid.getNormalizedBoneNode("head");
+  if (headNode) {
+    const headWPos = headNode.getWorldPosition(new THREE.Vector3());
+
+    // モバイルビューとデスクトップビューの判定
+    const mobileAspectRatioThreshold = 0.75;
+    if (this._camera.aspect < mobileAspectRatioThreshold) {
+      this._isMobileView = true;
+      this._camera.position.set(0, 0, 2);
+      //this.model.vrm.scene.scale.set(0.7, 0.7, 0.7);
+      this.model.vrm.scene.position.set(0, -1, -0.5);
+      this._cameraControls?.target.set(-1, -1, 2);
+      this._cameraControls?.target.set(headWPos.x, headWPos.y - 0.1, headWPos.z);
+    } else {
+      this._isMobileView = false;
+      //this._camera.position.set(0, headWPos.y + 0, headWPos.z + 1.5);
+      //this.model.vrm.scene.scale.set(1, 1, 1);
+      //this.model.vrm.scene.position.set(0, headWPos.y - 1, 0);
+      this._camera.position.set(0, 1.3, 1.5);
+      this.model.vrm.scene.position.set(0, 0, 0);
+      this._cameraControls?.target.set(0, 1.3, 0);
+      this._cameraControls?.target.set(headWPos.x, headWPos.y + 0.02, headWPos.z);
+    }
+
+    // カメラのターゲットを headWPos に設定
+    this._cameraControls?.update();
+  }
   }
 
   /**

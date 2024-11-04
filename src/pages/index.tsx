@@ -93,7 +93,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const [gsviTtsBatchSize, setGSVITTSBatchSize] = useState(2);
   const [gsviTtsSpeechRate, setGSVITTSSpeechRate] = useState(1.0);
   const [elevenlabsApiKey, setElevenlabsApiKey] = useState(ssrElevenlabsKey || "");
-  const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState("8EkOjt4xTPGMclNlh1pk");
+  const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState("");
   const [youtubeNextPageToken, setYoutubeNextPageToken] = useState("");
   const [youtubeContinuationCount, setYoutubeContinuationCount] = useState(0);
   const [youtubeNoCommentCount, setYoutubeNoCommentCount] = useState(0);
@@ -116,10 +116,19 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState("no");
+
   const correctPassword = "aichat24"; // 正しいパスワードをここに設定
+
+  const [username, setUsername] = useState(""); // ユーザー名のステートを追加
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isVoiceEnabled === "no") {
+    setElevenlabsApiKey(""); // APIキーを無効化
+  }
+
     if (password === correctPassword) {
       setIsAuthenticated(true);
     } else {
@@ -578,7 +587,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
             // ユーザーの発言を追加して表示
             const updateLog: Message[] = [
               ...codeLog,
-              { role: "user", content: newMessage },
+              { role: "user", content: formattedMessage}, // ユーザー名を追加
             ];
             setChatLog(updateLog);
             setCodeLog(updateLog);
@@ -605,14 +614,15 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
         // ユーザーの発言を追加して表示
         const messageLog: Message[] = [
           ...chatLog,
-          { role: "user", content: newMessage },
+          { role: "user", content: newMessage }, // usernameを追加
         ];
         setChatLog(messageLog);
 
         const processedMessageLog = messageLog.map(message => ({
           role: ['assistant', 'user', 'system'].includes(message.role) ? message.role : 'assistant',
-          content: message.content
+          content: message.content,
         }));
+        console.log("Debug: Processed message log with usernames:", JSON.stringify(processedMessageLog, null, 2)); // デバッグ用ログ
 
         const messages: Message[] = [
           {
@@ -625,13 +635,13 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
         try {
           await processAIResponse(messageLog, messages);
         } catch (e) {
-          console.error(e);
+          console.error("Error in processing AI response:", e);
         }
   
         setChatProcessing(false);
       }
     },
-    [webSocketMode, koeiroParam, handleSpeakAi, codeLog, t, selectAIService, openAiKey, anthropicKey, googleKey, groqKey, difyKey, chatLog, systemPrompt, processAIResponse]
+    [webSocketMode, koeiroParam, handleSpeakAi, codeLog, t, selectAIService, openAiKey, anthropicKey, googleKey, groqKey, difyKey, chatLog, systemPrompt, processAIResponse, username]
   );
 
   ///取得したコメントをストックするリストの作成（tmpMessages）
@@ -804,32 +814,72 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
           width: "100%", }}>
         振り返り支援機能（デモ版）
         </h1>    
-      <h1 style={{ padding: "10px", fontSize: "20px" }}>パスワードを入力してください</h1>
+      <h1 style={{ padding: "10px", fontSize: "20px" }}>ユーザー名・パスワードを入力してください</h1>
           <form onSubmit={handlePasswordSubmit}>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              style={{ padding: "10px", fontSize: "20px" }}
-            />
-            <button
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+  <input
+    type="text"
+    value={username}
+    onChange={(e) => setUsername(e.target.value)}
+    placeholder="Enter username (任意)"
+    style={{
+      padding: "10px",
+      fontSize: "20px",
+      marginBottom: "10px",
+      width: "100%",
+      maxWidth: "300px",
+    }}
+  />
+
+  <div style={{ display: "flex", alignItems: "center" }}>
+    <input
+      type="password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      placeholder="Enter password"
+      style={{
+        padding: "10px",
+        fontSize: "20px",
+        width: "100%",
+        maxWidth: "200px",
+      }}
+    />
+    <button
       type="submit"
       style={{
         padding: "10px 20px",
         marginLeft: "10px",
-        backgroundColor: isHovered ? "#ff5733" : "#c04621", // ホバー時の背景色を動的に変更
+        backgroundColor: isHovered ? "#ff5733" : "#c04621",
         color: "#ffffff",
         border: "none",
         borderRadius: "5px",
         cursor: "pointer",
-        transition: "background-color 0.3s ease", // スムーズな色変化
+        transition: "background-color 0.3s ease",
       }}
-      onMouseEnter={() => setIsHovered(true)} // ホバーしたときに状態を変更
-      onMouseLeave={() => setIsHovered(false)} // ホバーを外したときに状態を元に戻す
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       Submit
     </button>
+  </div>
+
+    {/* ボイス選択のプルダウンメニュー */}
+            <select
+              value={isVoiceEnabled}
+              onChange={(e) => setIsVoiceEnabled(e.target.value)}
+              style={{
+                padding: "10px",
+                fontSize: "18px",
+                marginBottom: "10px",
+                width: "100%",
+                maxWidth: "300px",
+              }}
+            >
+              <option value="no">ボイスなし</option>
+              <option value="yes">ボイスあり</option>
+            </select>
+
+</div>
           </form>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         
@@ -900,6 +950,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
           isChatProcessing={chatProcessing}
           onChatProcessStart={handleSendChat}
           selectVoiceLanguage={selectVoiceLanguage}
+          username={username} // 追加: username を渡す
         />
 
         <Menu
