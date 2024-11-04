@@ -68,7 +68,7 @@ export async function synthesizeVoiceElevenlabsApi(
       //'model_id': "eleven_multilingual_v2",
       'language_code': getLanguageCode(language),
       'voice_settings': {
-        'stability': 0.7,
+        'stability': 0.9,
         'similarity_boost': 0.3,
         'speed': 0.5 // 発話速度を0.5倍（ゆっくり）
       }

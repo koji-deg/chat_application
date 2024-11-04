@@ -93,7 +93,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const [gsviTtsBatchSize, setGSVITTSBatchSize] = useState(2);
   const [gsviTtsSpeechRate, setGSVITTSSpeechRate] = useState(1.0);
   const [elevenlabsApiKey, setElevenlabsApiKey] = useState(ssrElevenlabsKey || "");
-  const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState("");
+  const [elevenlabsVoiceId, setElevenlabsVoiceId] = useState("RBnMinrYKeccY3vaUxlZ");
   const [youtubeNextPageToken, setYoutubeNextPageToken] = useState("");
   const [youtubeContinuationCount, setYoutubeContinuationCount] = useState(0);
   const [youtubeNoCommentCount, setYoutubeNoCommentCount] = useState(0);
