@@ -145,7 +145,9 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
     audioRef.current.loop = true;
     audioRef.current?.play().then(() => {
       // play()が完了した後に音量を設定
-      audioRef.current?.volume = 0.3; // 初期音量を30%に設定
+      if (audioRef.current) {  // 再度 null チェック
+    audioRef.current.volume = 0.3; // 初期音量を30%に設定
+  }
     }).catch((error) => {
       console.error("オーディオの再生に失敗しました:", error);
     });
