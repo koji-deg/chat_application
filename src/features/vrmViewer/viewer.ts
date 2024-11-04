@@ -192,7 +192,7 @@ export class Viewer {
     const headWPos = headNode.getWorldPosition(new THREE.Vector3());
 
     // モバイルビューとデスクトップビューの判定
-    const mobileAspectRatioThreshold = 0.75;
+    const mobileAspectRatioThreshold = 0.5;
     if (this._camera.aspect < mobileAspectRatioThreshold) {
       this._isMobileView = true;
       this._camera.position.set(0, 0, 2);

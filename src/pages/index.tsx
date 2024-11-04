@@ -122,6 +122,8 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
 
   const [username, setUsername] = useState(""); // ユーザー名のステートを追加
 
+  const [isBgmEnabled, setIsBgmEnabled] = useState("no"); // BGMのオンオフ状態
+
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -139,18 +141,20 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-  if (isAuthenticated && audioRef.current) {
+  if (isAuthenticated && isBgmEnabled === "yes" && audioRef.current) {
     audioRef.current.loop = true;
     audioRef.current.play().then(() => {
       // play()が完了した後に音量を設定
-      if (audioRef.current) {  // 再度 null チェック
-        audioRef.current.volume = 0.3; // 初期音量を30%に設定
-      }
+      audioRef.current.volume = 0.3; // 初期音量を30%に設定
     }).catch((error) => {
       console.error("オーディオの再生に失敗しました:", error);
     });
+  } else if (audioRef.current) {
+    // BGMがオフの場合や認証が解除された場合、BGMを停止
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0; // 再生位置をリセット
   }
-}, [isAuthenticated, audioRef.current]);  // isAuthenticated と audioRef.current が変わった時に再実行
+}, [isAuthenticated, isBgmEnabled, audioRef]);  // isAuthenticated、isBgmEnabled、audioRef が変わった時に再実行
  
 
 
@@ -752,7 +756,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   const [isHovered, setIsHovered] = useState(false);
 
   const notice_items = [
-    '①5-10分程度を目安にご利用ください。',
+    '①「ボイスあり」の場合には、5-10分程度を目安にご利用ください。',
     '②リンク・パスワードの情報は第三者に共有しないようご注意願います。',
     '③現状対話記録は残らない仕様になっておりますが、秘匿性の高い情報などはインプットしないようにご配慮願います。',
     '④音声が流れる仕様になっていますので、起動時にはご注意ください。'
@@ -769,6 +773,13 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
       text: '②下記のQRコードで、モバイル端末からもご使用いただけます'
     }
   ];
+
+  const [hoverEffect, setHoverEffect] = useState({
+    usernameHover: false,
+    passwordHover: false,
+    voiceSelectHover: false,
+    bgmSelectHover: false,
+  });
 
 
   const styles = {
@@ -829,7 +840,12 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
       marginBottom: "10px",
       width: "100%",
       maxWidth: "300px",
+      border: hoverEffect.usernameHover ? "2px solid #007BFF" : "1px solid #ccc",
+      transition: "border-color 0.3s ease, background-color 0.3s ease",
+      backgroundColor: hoverEffect.usernameHover ? "#f0f8ff" : "white",
     }}
+    onMouseEnter={() => setHoverEffect((prev) => ({ ...prev, usernameHover: true }))}
+    onMouseLeave={() => setHoverEffect((prev) => ({ ...prev, usernameHover: false }))}
   />
 
   <div style={{ display: "flex", alignItems: "center" }}>
@@ -843,7 +859,12 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
         fontSize: "20px",
         width: "100%",
         maxWidth: "200px",
+        border: hoverEffect.passwordHover ? "2px solid #007BFF" : "1px solid #ccc",
+        transition: "border-color 0.3s ease, background-color 0.3s ease",
+        backgroundColor: hoverEffect.passwordHover ? "#f0f8ff" : "white",
       }}
+      onMouseEnter={() => setHoverEffect((prev) => ({ ...prev, passwordHover: true }))}
+      onMouseLeave={() => setHoverEffect((prev) => ({ ...prev, passwordHover: false }))}
     />
     <button
       type="submit"
@@ -863,26 +884,58 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
       Submit
     </button>
   </div>
+  {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
+  <br/>
+
+  <p>オプション</p>
     {/* ボイス選択のプルダウンメニュー */}
             <select
               value={isVoiceEnabled}
               onChange={(e) => setIsVoiceEnabled(e.target.value)}
               style={{
-                padding: "10px",
-                fontSize: "18px",
+                padding: "8px",
+                fontSize: "16px",
                 marginBottom: "10px",
                 width: "100%",
                 maxWidth: "300px",
+                border: hoverEffect.voiceSelectHover ? "2px solid #007BFF" : "1px solid #ccc",
+                backgroundColor: isVoiceEnabled === "yes" ? "#faf3b1" : "white",
+                color: isVoiceEnabled === "yes" ? "#333" : "black",
+                fontWeight: isVoiceEnabled === "yes" ? "bold" : "normal",
+                transition: "border-color 0.3s ease, background-color 0.3s ease",
               }}
+              onMouseEnter={() => setHoverEffect((prev) => ({ ...prev, voiceSelectHover: true }))}
+              onMouseLeave={() => setHoverEffect((prev) => ({ ...prev, voiceSelectHover: false }))}
             >
               <option value="no">ボイスなし</option>
               <option value="yes">ボイスあり</option>
             </select>
+            <select
+              value={isBgmEnabled}
+              onChange={(e) => setIsBgmEnabled(e.target.value)}
+              style={{
+                padding: "8px",
+                fontSize: "16px",
+                marginBottom: "10px",
+                width: "100%",
+                maxWidth: "300px",
+                border: hoverEffect.bgmSelectHover ? "2px solid #007BFF" : "1px solid #ccc",
+                backgroundColor: isBgmEnabled === "yes" ? "#faf3b1" : "white",
+                color: isBgmEnabled === "yes" ? "#333" : "black",
+                fontWeight: isBgmEnabled === "yes" ? "bold" : "normal",
+                transition: "border-color 0.3s ease, background-color 0.3s ease",
+              }}
+                onMouseEnter={() => setHoverEffect((prev) => ({ ...prev, bgmSelectHover: true }))}
+                onMouseLeave={() => setHoverEffect((prev) => ({ ...prev, bgmSelectHover: false }))}
+            >
+              <option value="no">BGMオフ</option>
+              <option value="yes">BGMオン</option>
+            </select>
 
 </div>
           </form>
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          
         
           
 
