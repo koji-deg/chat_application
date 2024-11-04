@@ -143,7 +143,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
   useEffect(() => {
   if (isAuthenticated && isBgmEnabled === "yes" && audioRef.current) {
     audioRef.current.loop = true;
-    audioRef.current.play().then(() => {
+    audioRef.current?.play().then(() => {
       // play()が完了した後に音量を設定
       audioRef.current.volume = 0.3; // 初期音量を30%に設定
     }).catch((error) => {
