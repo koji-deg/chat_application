@@ -587,7 +587,7 @@ export default function Home({ ssrOpenAiKey, ssrElevenlabsKey }: { ssrOpenAiKey:
             // ユーザーの発言を追加して表示
             const updateLog: Message[] = [
               ...codeLog,
-              { role: "user", content: formattedMessage}, // ユーザー名を追加
+              { role: "user", content: newMessage}, // ユーザー名を追加
             ];
             setChatLog(updateLog);
             setCodeLog(updateLog);
