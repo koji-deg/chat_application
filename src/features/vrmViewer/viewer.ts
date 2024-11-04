@@ -187,7 +187,7 @@ export class Viewer {
     this._camera.updateProjectionMatrix();
 
  // headノードのワールド座標を取得
-  const headNode = this.model.vrm.humanoid.getNormalizedBoneNode("head");
+ const headNode = this.model?.vrm?.humanoid?.getNormalizedBoneNode("head");
   if (headNode) {
     const headWPos = headNode.getWorldPosition(new THREE.Vector3());
 
